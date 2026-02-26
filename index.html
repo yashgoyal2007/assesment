@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style Aura – Ultimate Luxury</title>
+
+<style>
+:root{
+--primary:#ff4ecd;
+--dark-bg:#0f0c29;
+--light-bg:#f4f4f4;
+--text-dark:white;
+--text-light:#111;
+}
+
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+color:white;
+transition:0.4s;
+overflow-x:hidden;
+}
+
+body.light{
+background:var(--light-bg);
+color:var(--text-light);
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(10px);
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+nav a{
+margin:0 10px;
+color:inherit;
+text-decoration:none;
+font-weight:500;
+}
+
+button{
+cursor:pointer;
+border:none;
+padding:8px 15px;
+border-radius:20px;
+background:var(--primary);
+color:white;
+}
+
+.section{
+padding:60px 20px;
+text-align:center;
+}
+
+.products{
+display:flex;
+gap:30px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.card{
+width:250px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(15px);
+padding:15px;
+border-radius:15px;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.card img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.price{
+color:var(--primary);
+font-weight:bold;
+}
+
+.search-bar{
+text-align:center;
+margin:20px;
+}
+
+input, select{
+padding:8px;
+margin:5px;
+border-radius:5px;
+border:none;
+}
+
+.cart-panel{
+position:fixed;
+right:-400px;
+top:0;
+width:350px;
+height:100%;
+background:#111;
+padding:20px;
+transition:0.4s;
+overflow-y:auto;
+z-index:2000;
+}
+
+.cart-panel.active{ right:0; }
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
+footer{
+text-align:center;
+padding:20px;
+background:rgba(0,0,0,0.5);
+margin-top:40px;
+}
+
+.rating{
+color:gold;
+}
+
+.auth-box{
+text-align:center;
+margin:20px;
+}
+
+.order-history{
+background:rgba(0,0,0,0.4);
+padding:20px;
+margin:20px;
+border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<header>
+<h2>Style Aura</h2>
+<nav>
+<a href="#kids">Kids</a>
+<a href="#adults">Adults</a>
+<a href="#seniors">Seniors</a>
+<a href="#" onclick="toggleCart()">Cart</a>
+</nav>
+<div>
+<button onclick="toggleTheme()">Theme</button>
+<button onclick="logout()">Logout</button>
+</div>
+</header>
+
+<div class="auth-box">
+<h3>Login / Signup</h3>
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+<button onclick="signup()">Signup</button>
+<button onclick="login()">Login</button>
+<p id="authMsg"></p>
+</div>
+
+<div class="search-bar">
+<input type="text" id="searchInput" placeholder="Search products..." onkeyup="filterProducts()">
+</div>
+
+<section id="kids" class="section">
+<h2>Kids Collection</h2>
+<div class="products">
+
+<div class="card product" data-name="gravity hoodie">
+<img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf" alt="Gravity Hoodie" loading="lazy">
+<h3>Gravity Hoodie</h3>
+<p class="rating">★★★★★</p>
+<p class="price">$25</p>
+<button onclick="addToCart('Gravity Hoodie',25)">Add</button>
+</div>
+
+<div class="card product" data-name="star sneakers">
+<img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd47" alt="Star Sneakers" loading="lazy">
+<h3>Star Sneakers</h3>
+<p class="rating">★★★★☆</p>
+<p class="price">$20</p>
+<button onclick="addToCart('Star Sneakers',20)">Add</button>
+</div>
+
+</div>
+</section>
+
+<section id="adults" class="section">
+<h2>Adults Collection</h2>
+<div class="products">
+
+<div class="card product" data-name="antigravity blazer">
+<img src="https://images.unsplash.com/photo-1520975922215-230b9b67fba6" alt="Antigravity Blazer" loading="lazy">
+<h3>Antigravity Blazer</h3>
+<p class="rating">★★★★★</p>
+<p class="price">$70</p>
+<button onclick="addToCart('Antigravity Blazer',70)">Add</button>
+</div>
+
+<div class="card product" data-name="zero g dress">
+<img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a6d" alt="Zero-G Dress" loading="lazy">
+<h3>Zero-G Dress</h3>
+<p class="rating">★★★★☆</p>
+<p class="price">$85</p>
+<button onclick="addToCart('Zero-G Dress',85)">Add</button>
+</div>
+
+</div>
+</section>
+
+<section id="seniors" class="section">
+<h2>Seniors Collection</h2>
+<div class="products">
+
+<div class="card product" data-name="heritage cardigan">
+<img src="https://images.unsplash.com/photo-1562158070-6a97e89b2ed5" alt="Heritage Cardigan" loading="lazy">
+<h3>Heritage Cardigan</h3>
+<p class="rating">★★★★★</p>
+<p class="price">$55</p>
+<button onclick="addToCart('Heritage Cardigan',55)">Add</button>
+</div>
+
+<div class="card product" data-name="timeless trousers">
+<img src="https://images.unsplash.com/photo-1551854838-4b35ba3b9cbe" alt="Timeless Trousers" loading="lazy">
+<h3>Timeless Trousers</h3>
+<p class="rating">★★★★☆</p>
+<p class="price">$45</p>
+<button onclick="addToCart('Timeless Trousers',45)">Add</button>
+</div>
+
+<div class="card product" data-name="elegant shawl">
+<img src="https://images.unsplash.com/photo-1556228720-4f6c3c44a0d9" alt="Elegant Shawl" loading="lazy">
+<h3>Elegant Shawl</h3>
+<p class="rating">★★★★★</p>
+<p class="price">$35</p>
+<button onclick="addToCart('Elegant Shawl',35)">Add</button>
+</div>
+
+</div>
+</section>
+
+<div class="cart-panel" id="cartPanel">
+<h3>Your Cart</h3>
+<ul id="cartItems"></ul>
+<h4>Total: $<span id="total">0</span></h4>
+
+<h4>Payment</h4>
+<select id="paymentMethod">
+<option>Credit Card</option>
+<option>Debit Card</option>
+<option>PayPal</option>
+<option>UPI</option>
+</select>
+<input type="text" placeholder="Card / Account Number">
+<button onclick="checkout()">Complete Payment</button>
+</div>
+
+<div class="order-history">
+<h3>Order History</h3>
+<ul id="orderList"></ul>
+</div>
+
+<footer>
+© 2026 Style Aura – Ultimate Luxury Experience
+</footer>
+
+<script>
+let currentUser=null;
+let cart=[];
+let total=0;
+
+const authMsg=document.getElementById("authMsg");
+const cartPanel=document.getElementById("cartPanel");
+const cartItems=document.getElementById("cartItems");
+const orderList=document.getElementById("orderList");
+
+/* AUTH */
+function signup(){
+let u=username.value;
+let p=password.value;
+if(!u||!p){authMsg.textContent="Enter credentials";return;}
+localStorage.setItem(u,p);
+authMsg.textContent="Signup successful!";
+}
+
+function login(){
+let u=username.value;
+let p=password.value;
+if(localStorage.getItem(u)===p){
+currentUser=u;
+authMsg.textContent="Login successful!";
+loadOrders();
+}else{
+authMsg.textContent="Invalid credentials";
+}
+}
+
+function logout(){
+currentUser=null;
+alert("Logged out");
+}
+
+/* SEARCH */
+function filterProducts(){
+let input=document.getElementById("searchInput").value.toLowerCase();
+document.querySelectorAll(".product").forEach(card=>{
+card.style.display=card.dataset-name.toLowerCase().includes(input)?"block":"none";
+});
+}
+
+/* CART */
+function addToCart(name,price){
+cart.push({name,price});
+total+=price;
+displayCart();
+toggleCart();
+}
+
+function displayCart(){
+cartItems.innerHTML="";
+cart.forEach(item=>{
+let li=document.createElement("li");
+li.textContent=item.name+" - $"+item.price;
+cartItems.appendChild(li);
+});
+document.getElementById("total").textContent=total;
+}
+
+function toggleCart(){
+cartPanel.classList.toggle("active");
+}
+
+/* CHECKOUT */
+function checkout(){
+if(!currentUser){alert("Please login first");return;}
+if(cart.length===0){alert("Cart empty");return;}
+let method=paymentMethod.value;
+let order=`Order: $${total} via ${method}`;
+let orders=JSON.parse(localStorage.getItem(currentUser+"_orders")||"[]");
+orders.push(order);
+localStorage.setItem(currentUser+"_orders",JSON.stringify(orders));
+cart=[]; total=0;
+displayCart();
+loadOrders();
+alert("Payment Successful!");
+toggleCart();
+}
+
+function loadOrders(){
+if(!currentUser) return;
+let orders=JSON.parse(localStorage.getItem(currentUser+"_orders")||"[]");
+orderList.innerHTML="";
+orders.forEach(o=>{
+let li=document.createElement("li");
+li.textContent=o;
+orderList.appendChild(li);
+});
+}
+
+/* THEME */
+function toggleTheme(){
+document.body.classList.toggle("light");
+}
+
+/* PARTICLES */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+
+function resizeCanvas(){
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize",resizeCanvas);
+
+let particles=[];
+for(let i=0;i<90;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2+1,
+dy:Math.random()*1+0.5
+});
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(255,255,255,0.5)";
+particles.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fill();
+p.y-=p.dy;
+if(p.y<0) p.y=canvas.height;
+});
+requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>
